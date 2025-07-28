@@ -50,11 +50,13 @@ function menu () {
 }
 
 function adicionarTorneio() {
+    rl.question('Digite um número para o ID do torneio: ', (id) => {
     rl.question('Digite o nome do torneio: ', (nome) => {
         rl.question('Digite o nome do jogo: ', (jogo) => {
             rl.question('Digite a data do torneio: (YYYY-MM-DD) ', (data) => {
                 rl.question('Digite os nomes dos participantes: ', (participantes) => {
                     const torneio = {
+                        id,
                         nome,
                         jogo,
                         data,
@@ -71,6 +73,7 @@ function adicionarTorneio() {
             })
         })
     })
+})    
 } 
 
 // Função exibir torneios
