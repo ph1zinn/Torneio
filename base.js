@@ -54,13 +54,15 @@ function adicionarTorneio() {
     rl.question('Digite o nome do torneio: ', (nome) => {
         rl.question('Digite o nome do jogo: ', (jogo) => {
             rl.question('Digite a data do torneio: (YYYY-MM-DD) ', (data) => {
-                rl.question('Digite os nomes dos participantes: ', (participantes) => {
+                rl.question('Digite o nome do jogador 1', (jogador1) => {
+                  rl.question('Digite o nome do jogador 2', (jogador2) => {
                     const torneio = {
                         id,
                         nome,
                         jogo,
                         data,
-                        participantes,
+                        jogador1,
+                        jogador2,
                     };
                     torneios.push(torneio);
                     console.log('Seu torneio foi adicionado com sucesso!!')
@@ -74,6 +76,7 @@ function adicionarTorneio() {
         })
     })
 })    
+})
 } 
 
 // Função exibir torneios
@@ -142,5 +145,4 @@ function coletarDadosPartida(torneio) {
   });
 }
 
-// O missoes esta funcionando agora
 menu();
