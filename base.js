@@ -142,4 +142,5 @@ function coletarDadosPartida(torneio) {
   });
 }
 
+// O missoes esta funcionando agora
 menu();
