@@ -145,6 +145,72 @@ function coletarDadosPartida(torneio) {
   });
 }
 
+@param {number} idTorneio.
+ 
+ function listarPartidasDoTorneio (idTorneio) {
+    const torneio = torneios.find(t => t.id === idTorneio); // Encontra o torneio pelo ID
+    if (!torneio) {
+        console.log(`Torneio com ID ${idTorneio} não encontrado.`);
+        return;
+    }
+    console.log(`\n--- PARTIDAS DO TORNEIO "${torneio.nomeTorneio}" (ID: ${torneio.id}) ---`);
+    if (torneio.partidas.length === 0) {
+        console.log("Nenhuma partida registrada para este torneio.");
+    } else {
+        torneio.partidas.forEach((partida, index) => { // Percorre e lista cada partida do torneio
+            console.log(`Partida ${index + 1}: ${partida.jogador1} vs ${partida.jogador2} | Vencedor: ${partida.vencedor} | Data/Hora: ${partida.timestamp}`);
+        });
+    }
+
+    console.log(`\n--- CLASSIFICAÇÃO DO TORNEIO "${torneio.nomeTorneio}" ---`);
+    const pontuacoes = {}; // Um objeto para guardar as vitórias de cada jogador (ex: { "Alice": 3, "Bob": 1 })
+
+    // Inicializa a pontuação de todos os participantes com 0 vitórias
+    torneio.participantes.forEach(participante => pontuacoes[participante] = 0);
+
+    // Percorre todas as partidas do torneio
+    torneio.partidas.forEach(partida => {
+        // Se o vencedor da partida existir na nossa lista de pontuações, incrementa sua vitória
+        if (pontuacoes.hasOwnProperty(partida.vencedor)) {
+            pontuacoes[partida.vencedor]++;
+        }
+    });
+
+    // Converte as pontuações em um array de arrays (ex: [["Alice", 3], ["Bob", 1]])
+    // e ordena em ordem decrescente de vitórias (o maior vem primeiro)
+    const ranking = Object.entries(pontuacoes).sort(([, vitAlice], [, vitBob]) => vitBob - vitAlice);
+
+    if (ranking.length === 0) {
+        console.log("Nenhuma pontuação registrada ainda.");
+    } else {
+        ranking.forEach(([jogador, vitorias], index) => { // Percorre o ranking e exibe a posição, nome e vitórias
+            console.log(`${index + 1}. ${jogador} - ${vitorias} vitórias`);
+        });
+    }
+  }
+
+
+ @param {string} nomeJogo - //O nome do jogo para filtrar.
+ 
+function filtrarTorneiosPorJogo(nomeJogo) {
+  // Filtra a lista 'torneios', mantendo apenas aqueles cujo 'nomeJogo' é igual ao que foi informado (ignorando maiúsculas/minúsculas)
+  const torneiosFiltrados = torneios.filter(torneio => torneio.nomeJogo.toLowerCase() === nomeJogo.toLowerCase());
+
+  if (torneiosFiltrados.length === 0) { // Se nenhum torneio for encontrado com esse jogo
+      console.log(`Nenhum torneio encontrado para o jogo selecionado "${nomeJogo}".`);
+      return;
+  }
+
+  console.log(`\n--- TORNEIOS DE "${nomeJogo}" ---`);
+  torneiosFiltrados.forEach(torneio => { // Percorre e exibe os detalhes dos torneios filtrados
+      console.log(`ID: ${torneio.id}`);
+      console.log(`Nome: ${torneio.nomeTorneio}`);
+      console.log(`Data: ${torneio.dataJogo}`);
+      console.log(`Total de Participantes: ${torneio.participantes.length}`);
+      console.log("-------------------------");
+  });
+}
+
 function removerTorneio() {
   if (torneios.length === 0) {
       console.log('Nenhum torneio registrado para remover.');
